@@ -68,30 +68,20 @@ loves_pet(X) :- owns(X, Y), loves(X, Y).
 
 
 % Problem 6: Family Tree with Rules and Facts
-% Facts
-parent(john, bob).
-parent(john, alice).
-parent(mary, bob).
-parent(mary, alice).
-parent(bob, charlie).
-parent(susan, charlie).
 
-male(john).
-male(bob).
-male(charlie).
-female(mary).
-female(alice).
-female(susan).
+% Facts
+parent(john, mary).
+parent(mary, tom).
+parent(tom, kate).
+parent(kate, emily).
 
 % Rules
-father(X, Y) :- parent(X, Y), male(X).
-mother(X, Y) :- parent(X, Y), female(X).
 grandparent(X, Y) :- parent(X, Z), parent(Z, Y).
-
-% Queries
-% ?- father(john, bob).           % true
-% ?- mother(mary, alice).         % true
-% ?- grandparent(john, charlie).  % true
+ancestor(X, Y) :- parent(X, Y).
+ancestor(X, Y) :- parent(X, Z), ancestor(Z, Y).
+sibling(X, Y) :- parent(Z, X), parent(Z, Y), X \= Y.
+uncle(X, Y) :- sibling(X, Z), parent(Z, Y).
+cousin(X, Y) :- parent(Z1, X), parent(Z2, Y), sibling(Z1, Z2), X \= Y.
 
 
 % Problem 13: Smart Home Temperature Control System
